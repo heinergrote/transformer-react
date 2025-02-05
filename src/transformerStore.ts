@@ -62,7 +62,13 @@ export const useTransformStore = create<TransformerState>((set, get) => ({
   destPoints: getDefaultPoints("perspective"),
   transform: identityMatrix,
 
-  setType: (transformType: TransformType) => set({ transformType, srcPoints: getDefaultPoints(transformType), destPoints: getDefaultPoints(transformType) }),
+  setType: (transformType: TransformType) => set({
+    transformType,
+    srcPoints: getDefaultPoints(transformType),
+    destPoints: getDefaultPoints(transformType),
+    transform: findHomographyMatrix(transformType, getDefaultPoints(transformType), getDefaultPoints(transformType))
+  }),
+
   stepType: (steps:number) => {
     get().setType(stepType(get().transformType, steps))
   },
